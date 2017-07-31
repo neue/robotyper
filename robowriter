@@ -1,0 +1,26 @@
+#!/usr/bin/env node
+
+var robot = require("robotjs");
+var fs = require('fs');
+var filename = process.argv[2];
+
+var readable = fs.createReadStream(filename, {
+    encoding: 'utf8',
+    fd: null
+});
+
+readable.on('readable', function() {
+   readCharacter();
+});
+
+function readCharacter() {
+   let chunk;
+   if (null !== (chunk = readable.read(1))) {
+      if (chunk == "\n") {
+         robot.keyTap("enter");
+      } else {
+         robot.typeString(chunk);
+      }
+   setTimeout(readCharacter,250);
+   }
+}
