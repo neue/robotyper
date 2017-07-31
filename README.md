@@ -3,4 +3,4 @@ Read a file, write it back out with simulated keypresses
 
 ## Usage
 
-`sleep 5 && ./robowriter filename`
+`sleep 5 && ./robotyper filename`
