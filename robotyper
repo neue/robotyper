@@ -3,24 +3,24 @@
 var robot = require("robotjs");
 var fs = require('fs');
 var filename = process.argv[2];
+var fileToType;
 
-var readable = fs.createReadStream(filename, {
-    encoding: 'utf8',
-    fd: null
+fs.readFile(filename, 'utf8', function (err,data) {
+  if (err) {
+    return console.log(err);
+  }
+  fileToType = data.split("");
+  writeCharacter();
 });
 
-readable.on('readable', function() {
-   readCharacter();
-});
-
-function readCharacter() {
-   let chunk;
-   if (null !== (chunk = readable.read(1))) {
-      if (chunk == "\n") {
+function writeCharacter() {
+   if (fileToType.length > 0) {
+      let character = fileToType.shift();
+      if (character == "\n") {
          robot.keyTap("enter");
       } else {
-         robot.typeString(chunk);
+         robot.typeString(character);
       }
-   setTimeout(readCharacter,250);
-   }
+      setTimeout(writeCharacter,250);
+   }      
 }
